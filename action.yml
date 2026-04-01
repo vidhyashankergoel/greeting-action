@@ -1,6 +1,9 @@
 name: "Simple Greeting Action by vidhya101"   # Display name shown in GitHub UI
 description: "A custom GitHub Action to print greeting message inputs"   # Purpose of this action
-
+branding:
+  icon: "smile"
+  color: "blue"
+  
 inputs:   # Inputs that workflow will pass into this action
   username:   # Input variable → accessed as inputs.username
     description: "Name of user to greet"   # Explains purpose of input
