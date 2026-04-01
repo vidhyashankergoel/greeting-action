@@ -42,14 +42,17 @@ jobs:
         run: |
           MAJOR=${{ steps.major-version.outputs.major }}
           LATEST_TAG=${{ steps.tags.outputs.latest }}
+
           echo "Latest tag is $LATEST_TAG"
           echo "Major version is $MAJOR"
+
           if [ "$LATEST_TAG" = "none" ]; then
             NEXT_TAG="${MAJOR}.0"
             echo "next=$NEXT_TAG" >> $GITHUB_OUTPUT
             echo "No previous tags found. New tag = $NEXT_TAG"
             exit 0
           fi
+
           LATEST_MAJOR=$(echo $LATEST_TAG | cut -d '.' -f1)
           if [ "$LATEST_MAJOR" = "$MAJOR" ]; then
             MINOR=$(echo $LATEST_TAG | cut -d '.' -f2)
@@ -61,3 +64,15 @@ jobs:
 
           echo "Next tag = $NEXT_TAG"
           echo "next=$NEXT_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create and Push Tag
+        run: |
+          TAG="${{ steps.next-tag.outputs.next }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          
+      - name: Publish GitHub Action
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.next-tag.outputs.next }}
+          generate_release_notes: true
