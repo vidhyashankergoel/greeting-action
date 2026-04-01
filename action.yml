@@ -1,0 +1,37 @@
+name: "Simple Greeting Action"   # Display name of the action shown in GitHub UI
+
+description: "A custom GitHub Action to print greeting message inputs"   # Purpose of the action
+
+inputs:   # Section to define parameters that user will pass from workflow
+  username:   # Input parameter name (used as inputs.username)
+    description: "Name of user to greet"   # Explains what this input is for
+    required: true   # This input MUST be provided, otherwise workflow fails
+
+  season:   # Second input parameter
+    description: "Name of Season"   # Meaning of this input
+    required: false   # Optional input
+    default: "summer"   # If user does not pass value, this will be used
+
+outputs:   # Section to define values returned from this action
+  message:   # Output variable name (NOTE: fixed typo from messaage → message)
+    description: "Generated Greeting Message"   # What this output contains
+
+runs:   # Defines how the action executes
+  using: "composite"   # Type of action → composite means sequence of steps (no JS/Docker)
+
+  steps:   # List of steps executed inside this action
+    - name: Print Greeting   # Logical name of this step (for logs visibility)
+
+      shell: bash   # Specifies shell to execute commands (bash is default for Linux runners)
+
+      run: |   # Multi-line script block (pipe symbol allows multiple lines)
+        echo "Hello ${{ inputs.username }}, Welcome to ${{ inputs.season }} season."
+        # Prints greeting message using inputs passed from workflow
+
+        echo "message=Hello ${{ inputs.username }}" >> $GITHUB_OUTPUT
+        # This line sets the output variable
+        # Syntax:
+        # key=value >> $GITHUB_OUTPUT
+        # Here:
+        # message = output name
+        # Hello username = value returned to workflow
