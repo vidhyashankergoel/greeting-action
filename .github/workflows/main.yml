@@ -19,5 +19,5 @@ jobs:
 
       - name: use action output
         run: |
-          echo "Action says : ${{steps.greet.outputs.message}}. "
+          echo "Action says - ${{steps.greet.outputs.message}}. "
     
