@@ -1,4 +1,4 @@
-name: "Simple Greeting Action"   # Display name shown in GitHub UI
+name: "Simple Greeting Action by vidhya101"   # Display name shown in GitHub UI
 description: "A custom GitHub Action to print greeting message inputs"   # Purpose of this action
 
 inputs:   # Inputs that workflow will pass into this action
